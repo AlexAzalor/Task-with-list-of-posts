@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './PostsList.scss';
 
-import {
-  addPost,
-  deletePost,
-  loadPosts,
-  updatePost,
-} from '../../api/posts';
+import { addPost, loadPosts, updatePost } from '../../api/posts';
+import { PostListForm } from './PostListForm';
 
 type Props = {
   handleButtonDetails: (id: number) => void;
@@ -26,11 +22,6 @@ export const PostsList: React.FC<Props> = ({ handleButtonDetails, postId, setPos
     setPosts(postsFromServer);
   };
 
-  const delPost = async (id: number) => {
-    await deletePost(id);
-    await getPosts();
-  };
-
   const clearFields = () => {
     setAddTitle('');
     setAddBody('');
@@ -40,15 +31,6 @@ export const PostsList: React.FC<Props> = ({ handleButtonDetails, postId, setPos
     event.preventDefault();
 
     await addPost(addTitle, addBody);
-    await updatePost(idUpdatePost, addTitle, addBody);
-    await getPosts();
-
-    clearFields();
-  };
-
-  const handleSubmitPut = async (event: React.FormEvent) => {
-    event.preventDefault();
-
     await updatePost(idUpdatePost, addTitle, addBody);
     await getPosts();
 
@@ -116,46 +98,12 @@ export const PostsList: React.FC<Props> = ({ handleButtonDetails, postId, setPos
                 </button>
               )}
 
-              <form
-                className="NewCommentForm"
-                onSubmit={handleSubmitPut}
-              >
-                <input
-                  type="hidden"
-                  value={post.id}
-                  onChange={(event) => setPostId(+event.target.value)}
-                />
-
-                <input
-                  type="text"
-                  placeholder="Type title"
-                  value={addTitle}
-                  onChange={event => setAddTitle(event.target.value)}
-                />
-
-                <textarea
-                  className="NewCommentForm__input"
-                  placeholder="Type text"
-                  value={addBody}
-                  onChange={event => setAddBody(event.target.value)}
-                />
-
-                <button
-                  type="submit"
-                  className="NewCommentForm__submit-button button"
-                  onClick={() => setIdUpdatePost(post.id)}
-                >
-                  Update post
-                </button>
-
-                <button
-                  type="button"
-                  className="PostsList__button PostsList__button--red button"
-                  onClick={() => delPost(post.id)}
-                >
-                  Remove post
-                </button>
-              </form>
+              <PostListForm
+                getPosts={getPosts}
+                setPostId={setPostId}
+                setIdUpdatePost={setIdUpdatePost}
+                id={post.id}
+              />
             </div>
           </li>
         ))}
