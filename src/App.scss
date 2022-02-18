@@ -4,9 +4,8 @@
 
 body {
   min-height: 100vh;
-  background-color: #e9e6f2;
+  background-color: bisque;
   padding: 20px;
-  color: #4d457b;
   font-family: "Roboto", sans-serif;
 }
 
@@ -41,15 +40,6 @@ ul {
   &__header {
     position: sticky;
     padding: 10px;
-  }
-
-  &__user-selector {
-    padding: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    color: #4d457b;
-    border: 1px solid #4d457b;
-    border-radius: 5px;
   }
 
   &__main {

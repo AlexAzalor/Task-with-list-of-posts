@@ -1,34 +1,39 @@
 .PostsList {
   width: 100%;
 
-  &__user-button {
-    cursor: pointer;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-weight: bold;
+  &__button {
+    &--red {
+      background-color: #8b0000;
 
-    &:hover {
-      background-color: lightblue;
+      &:hover {
+        background-color: #dc143c;
+      }
     }
   }
 
   &__list {
     list-style: none;
     padding-left: 5px;
+
   }
 
   &__item {
     display: flex;
     justify-content: space-between;
+    gap: 5px;
     align-items: center;
     border-radius: 10px;
     padding: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     background-color: #fafafd;
     line-height: 1.5;
+    border-radius:3px 3px 0px 0px;
+    box-shadow: 0 0.5rem 0.8rem #00000080;
   }
 
-  &__button {
-    margin-left: 10px;
+  &__form {
+    width: 320px;
+    display: flex;
+    justify-content: center;
   }
 }

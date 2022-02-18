@@ -3,14 +3,21 @@
   padding: 5px 10px;
   border-radius: 5px;
   font-weight: bold;
-  background-color: #b8b3d2;
+  background-color: rgb(228, 178, 117);
   border: 0;
-  color: white;
-  transition: background-color 0.12s;
+  color:  white;
   font-size: inherit;
   min-width: 100px;
+  transition: background-color 0.4s;
 
   &:hover {
-    background-color: #4d457b;
+    background-color: rgb(228, 136, 25);
   }
+}
+
+input {
+  border: 1px solid grey;
+  border-radius: 5px;
+  margin-bottom: 3px;
+  outline: none;
 }

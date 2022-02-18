@@ -1,45 +1,75 @@
-import React from 'react';
-import { NewCommentForm } from '../NewCommentForm';
+import React, { useEffect, useState } from 'react';
 import './PostDetails.scss';
 
-export const PostDetails: React.FC = () => (
-  <div className="PostDetails">
-    <h2>Post details:</h2>
+import { loadPostDetails } from '../../api/posts';
+import { deleteComment, loadComments } from '../../api/comments';
 
-    <section className="PostDetails__post">
-      <p>sunt aut facere repellat provident occaecati excepturi optio</p>
-    </section>
+import { NewCommentForm } from '../NewCommentForm';
 
-    <section className="PostDetails__comments">
-      <button type="button" className="button">Hide 2 comments</button>
+type Props = {
+  postId: number;
+};
 
-      <ul className="PostDetails__list">
-        <li className="PostDetails__list-item">
-          <button
-            type="button"
-            className="PostDetails__remove-button button"
-          >
-            X
-          </button>
-          <p>My first comment</p>
-        </li>
+export const PostDetails: React.FC<Props> = ({ postId }) => {
+  const [postDetails, setPostDetails] = useState<Post | null>();
+  const [comments, setComments] = useState<Comments[]>([]);
 
-        <li className="PostDetails__list-item">
-          <button
-            type="button"
-            className="PostDetails__remove-button button"
-          >
-            X
-          </button>
-          <p>sad sds dfsadf asdf asdf</p>
-        </li>
-      </ul>
-    </section>
+  const getPostDetails = async () => {
+    const detailsFromServer = await loadPostDetails(postId);
 
-    <section>
-      <div className="PostDetails__form-wrapper">
-        <NewCommentForm />
-      </div>
-    </section>
-  </div>
-);
+    setPostDetails(detailsFromServer);
+  };
+
+  const getComments = async () => {
+    const commentsFromServer = await loadComments(postId);
+
+    setComments(commentsFromServer.comments);
+  };
+
+  const handleDeleteComment = async (id: number) => {
+    await deleteComment(id);
+    await getComments();
+  };
+
+  useEffect(() => {
+    getComments();
+    getPostDetails();
+  }, [postId]);
+
+  return (
+    <div className="PostDetails">
+      <h2>Post details:</h2>
+
+      <section className="PostDetails__post">
+        <p>{postDetails?.title}</p>
+      </section>
+
+      <section className="PostDetails__comments">
+
+        <ul className="PostDetails__list">
+          {comments.map(commentary => (
+            <li key={commentary.id} className="PostDetails__list-item">
+              <button
+                type="button"
+                className="PostDetails__remove-button button"
+                onClick={() => handleDeleteComment(commentary.id)}
+              >
+                X
+              </button>
+              <p>{commentary.body}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <div className="PostDetails__form-wrapper">
+          <NewCommentForm
+            postId={postId}
+            getComments={getComments}
+          />
+        </div>
+      </section>
+    </div>
+  );
+};
