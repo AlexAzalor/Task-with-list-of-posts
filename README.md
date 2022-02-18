@@ -1,3 +1,5 @@
+ - [DEMO LINK](https://alexazalor.github.io/Task-with-list-of-posts/)
+
 # Instructions on how to run the solution
 
 1. Run `npm install` to install the dependencies
